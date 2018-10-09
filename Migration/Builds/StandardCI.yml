@@ -6,12 +6,25 @@
 pool:
   vmImage: 'VS2017-Win2016'
 
+trigger:
+- master
+- develop
+- release/*
+- hotfix/*
+- feature/*
+
 variables:
-  solution: '**/*.sln'
+  solution: 'migration/MigrationPlayground.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
 
 steps:
+
+- task: GitVersion@1
+  displayName: GitVersion 
+  inputs:
+    BuildNamePrefix: 'MigrationCI-'
+
 - task: NuGetToolInstaller@0
 
 - task: NuGetCommand@2
