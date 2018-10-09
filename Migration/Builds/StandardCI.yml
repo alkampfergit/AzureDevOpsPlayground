@@ -23,7 +23,7 @@ steps:
 - task: GitVersion@1
   displayName: GitVersion 
   inputs:
-    BuildNamePrefix: 'MigrationCI-'
+    BuildNamePrefix: 'MigrationCI'
 
 - task: NuGetToolInstaller@0
 
