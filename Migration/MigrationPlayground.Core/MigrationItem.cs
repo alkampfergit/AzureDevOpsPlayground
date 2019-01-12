@@ -4,25 +4,25 @@ using System.Text;
 
 namespace MigrationPlayground.Core
 {
-    public class MigrationItem
+public class MigrationItem
+{
+    public MigrationItem()
     {
-        public MigrationItem()
-        {
-            _versions = new List<MigrationItemVersion>();
-        }
+        _versions = new List<MigrationItemVersion>();
+    }
 
-        /// <summary>
-        /// This is the original Id of original system to keep track of what was already
-        /// imported.
-        /// </summary>
-        public String OriginalId { get; set; }
+    /// <summary>
+    /// This is the original Id of original system to keep track of what was already
+    /// imported.
+    /// </summary>
+    public String OriginalId { get; set; }
 
-        /// <summary>
-        /// You need to specify type of workitem to be used during import.
-        /// </summary>
-        public String WorkItemDestinationType { get; set; }
+    /// <summary>
+    /// You need to specify type of workitem to be used during import.
+    /// </summary>
+    public String WorkItemDestinationType { get; set; }
 
-        private readonly List<MigrationItemVersion> _versions;
+    private readonly List<MigrationItemVersion> _versions;
 
         /// <summary>
         /// This is the list of all the version that this item had in the past, it is

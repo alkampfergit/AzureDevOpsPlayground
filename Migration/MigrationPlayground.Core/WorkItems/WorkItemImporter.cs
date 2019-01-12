@@ -81,8 +81,13 @@ namespace MigrationPlayground.Core.WorkItems
 
         private WorkItem CreateWorkItem(MigrationItem migrationItem)
         {
-
-            var type = teamProject.WorkItemTypes[migrationItem.WorkItemDestinationType];
+            WorkItemType type= null;
+            try
+            {
+                type = teamProject.WorkItemTypes[migrationItem.WorkItemDestinationType];
+            }
+            catch (WorkItemTypeDeniedOrNotExistException) { }//ignore the exception will be logged  
+           
             if (type == null)
             {
                 Log.Error("Unable to find work item type {WorkItemDestinationType}", migrationItem.WorkItemDestinationType);
