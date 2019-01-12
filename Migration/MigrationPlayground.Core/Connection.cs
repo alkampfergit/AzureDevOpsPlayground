@@ -18,7 +18,13 @@ namespace MigrationPlayground.Core
         public Connection(String accountUri, String accessToken)
         {
             ConnectToTfs(accountUri, accessToken);
-            _workItemStore = _tfsCollection.GetService<WorkItemStore>();
+            //remember that we need to bypass rules if we want to load data in the past.
+            _workItemStore = new WorkItemStore(_tfsCollection, WorkItemStoreFlags.BypassRules);
+        }
+
+        internal Project GetTeamProject(string teamProjectName)
+        {
+            return WorkItemStore.Projects[teamProjectName];
         }
 
         private TfsTeamProjectCollection _tfsCollection;

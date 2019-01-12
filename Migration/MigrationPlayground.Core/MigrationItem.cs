@@ -17,6 +17,11 @@ namespace MigrationPlayground.Core
         /// </summary>
         public String OriginalId { get; set; }
 
+        /// <summary>
+        /// You need to specify type of workitem to be used during import.
+        /// </summary>
+        public String WorkItemDestinationType { get; set; }
+
         private readonly List<MigrationItemVersion> _versions;
 
         /// <summary>
@@ -24,6 +29,11 @@ namespace MigrationPlayground.Core
         /// needed to allow importing the whole history of a work item.
         /// </summary>
         public IEnumerable<MigrationItemVersion> Versions => _versions;
+
+        public MigrationItemVersion GetVersionAt(Int32 position)
+        {
+            return _versions[position];
+        }
 
         public MigrationItem AddVersion(MigrationItemVersion version)
         {

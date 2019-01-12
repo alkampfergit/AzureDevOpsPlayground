@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="CommandLineParser" Version="2.4.3" />
     <PackageReference Include="Microsoft.TeamFoundationServer.Client" Version="15.131.1" />
     <PackageReference Include="Microsoft.TeamFoundationServer.ExtendedClient" Version="15.131.1" />
     <PackageReference Include="Microsoft.VisualStudio.Services.Client" Version="15.131.1" />
@@ -19,6 +20,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MigrationPlayground.Core\MigrationPlayground.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="System.Configuration" />
   </ItemGroup>
 
 </Project>
