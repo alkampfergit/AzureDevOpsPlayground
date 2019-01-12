@@ -7,6 +7,14 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.TeamFoundationServer.Client" Version="15.131.1" />
+    <PackageReference Include="Microsoft.TeamFoundationServer.ExtendedClient" Version="15.131.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Services.Client" Version="15.131.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Services.InteractiveClient" Version="15.131.1" />
+    <PackageReference Include="Serilog" Version="2.7.1" />
+    <PackageReference Include="Serilog.Exceptions" Version="5.0.0" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
+    <PackageReference Include="Serilog.Sinks.File" Version="4.0.0" />
+    <PackageReference Include="Serilog.Sinks.RollingFile" Version="3.3.0" />
   </ItemGroup>
 
   <ItemGroup>
