@@ -1,9 +1,7 @@
 ﻿using Microsoft.TeamFoundation.WorkItemTracking.Client;
 using Serilog;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace MigrationPlayground.Core.WorkItems
@@ -52,6 +50,7 @@ namespace MigrationPlayground.Core.WorkItems
                     workItem.Fields["System.CreatedBy"].Value = version.AuthorEmail;
                 }
                 workItem.Title = version.Title;
+                workItem.Description = version.Description;
                 var validation = workItem.Validate();
                 if (validation.Count > 0)
                 {
@@ -63,6 +62,14 @@ namespace MigrationPlayground.Core.WorkItems
                     return false;
                 }
                 workItem.Save();
+                if (i == 0)
+                {
+                    Log.Information("Saved for the first time Work Item for type {workItemType} with id {workItemId} related to original id {originalId}", workItem.Type.Name, workItem.Id, itemToMigrate.OriginalId);
+                }
+                else
+                {
+                    Log.Debug("Saved iteration {i} for original id {originalId}", i, itemToMigrate.OriginalId);
+                }
             }
 
             return true;
@@ -70,24 +77,21 @@ namespace MigrationPlayground.Core.WorkItems
 
         private WorkItem GetWorkItem(String originalId)
         {
-            var existingWorkItems = connection.WorkItemStore.Query($@"select * from  workitems where {fieldWithOriginalId} = '" + originalId + "'");
-            foreach (WorkItem wi in existingWorkItems)
-            {
-                return wi;
-            }
-
-            return null;
+            var existingWorkItems = connection
+                .WorkItemStore
+                .Query($@"select * from  workitems where {fieldWithOriginalId} = '" + originalId + "'");
+            return existingWorkItems.OfType<WorkItem>().FirstOrDefault();
         }
 
         private WorkItem CreateWorkItem(MigrationItem migrationItem)
         {
-            WorkItemType type= null;
+            WorkItemType type = null;
             try
             {
                 type = teamProject.WorkItemTypes[migrationItem.WorkItemDestinationType];
             }
             catch (WorkItemTypeDeniedOrNotExistException) { }//ignore the exception will be logged  
-           
+
             if (type == null)
             {
                 Log.Error("Unable to find work item type {WorkItemDestinationType}", migrationItem.WorkItemDestinationType);
@@ -95,7 +99,7 @@ namespace MigrationPlayground.Core.WorkItems
             }
 
             WorkItem workItem = new WorkItem(type);
-            Log.Information("Created Work Item for type {workItemType} with {workItemId} related to original id {originalId}", workItem.Type.Name, workItem.Id, migrationItem.OriginalId);
+            Log.Information("Created Work Item for type {workItemType} related to original id {originalId}", workItem.Type.Name, migrationItem.OriginalId);
 
             //now start creating basic value that we need, like the original id 
             workItem[fieldWithOriginalId] = migrationItem.OriginalId;

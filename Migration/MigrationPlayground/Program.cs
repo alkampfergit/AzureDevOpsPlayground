@@ -44,8 +44,24 @@ namespace MigrationPlayground
                 VersionTimestamp = new DateTime(2010, 01, 23, 22, 10, 32),
             });
 
+            mi.AddVersion(new MigrationItemVersion()
+            {
+                AuthorEmail = "alkampfer@outlook.com",
+                Description = "Description",
+                Title = "Title Modified",
+                VersionTimestamp = new DateTime(2011, 01, 23, 22, 10, 32),
+            });
+
+            mi.AddVersion(new MigrationItemVersion()
+            {
+                AuthorEmail = "alkampfer@outlook.com",
+                Description = "Description",
+                Title = "Title Modified Again",
+                VersionTimestamp = new DateTime(2012, 01, 23, 22, 10, 32),
+            });
+
             var importResult = importer.ImportWorkItemAsync(mi).Result;
-            Log.Information("import result: {importResult}");
+            Log.Information("import result: {importResult}", importResult);
 
             if (Environment.UserInteractive)
             {
