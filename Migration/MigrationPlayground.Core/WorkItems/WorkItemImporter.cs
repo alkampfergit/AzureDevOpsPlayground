@@ -48,6 +48,7 @@ namespace MigrationPlayground.Core.WorkItems
                 if (i == 0)
                 {
                     workItem.Fields["System.CreatedBy"].Value = version.AuthorEmail;
+                    workItem.Fields["System.CreatedDate"].Value = version.VersionTimestamp;
                 }
                 workItem.Title = version.Title;
                 workItem.Description = version.Description;
