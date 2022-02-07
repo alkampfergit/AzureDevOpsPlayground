@@ -1,4 +1,6 @@
-﻿using Microsoft.TeamFoundation.WorkItemTracking.WebApi;
+﻿using Microsoft.TeamFoundation.Core.WebApi.Types;
+using Microsoft.TeamFoundation.Dashboards.WebApi;
+using Microsoft.TeamFoundation.WorkItemTracking.WebApi;
 using Microsoft.TeamFoundation.WorkItemTracking.WebApi.Models;
 using Microsoft.VisualStudio.Services.Common;
 using Microsoft.VisualStudio.Services.WebApi;
@@ -32,6 +34,7 @@ static class Program
         List<QueryHierarchyItem> queryHierarchyItems = witClient.GetQueriesAsync(projectName, expand: QueryExpand.All, depth: 2).Result;
         var query = await witClient.GetQueryAsync(projectName, "Shared Queries/Test/TestQuery", expand: QueryExpand.All, depth: 2);
 
+        // this is the new query copied
         var newQuery = new QueryHierarchyItem()
         {
             Name = "copied",
@@ -39,7 +42,36 @@ static class Program
             IsFolder = false,
         };
 
-        await witClient.CreateQueryAsync(newQuery, projectName, "Shared Queries/Test");
+        var newQuerySaved = await witClient.CreateQueryAsync(newQuery, projectName, "Shared Queries/Test");
+
+        // Get dashboard client and get all the dashboard
+        var dashClient = connection.GetClient<DashboardHttpClient>();
+        var dashboards = await dashClient.GetDashboardsByProjectAsync(new TeamContext(projectName));
+
+        // then find the dashboard with a specific name.
+        var dashTest = dashboards.Single(d => d.Name == "DashTests");
+        TeamContext teamContext = new TeamContext(projectName, "Proximo Team");
+        var dashboard = await dashClient.GetDashboardAsync(
+            teamContext,
+            dashTest.Id.Value);
+
+        // now iterate in all widgets, replace old query id with the new query id.
+        foreach (var widget in dashboard.Widgets)
+        {
+            //var settings = JsonNode.Parse(widget.Settings);
+            //settings["groupKey"] = newQuerySaved.Id;
+            //var options = new JsonSerializerOptions { WriteIndented = false };
+            //widget.Settings = settings.ToJsonString(options);
+
+            widget.Settings = widget.Settings.Replace(query.Id.ToString(), newQuerySaved.Id.ToString());
+            widget.Name += " copied";
+        }
+
+        // create the dashboard with the new widget.
+        var newDashboard = new Dashboard(dashboard.Widgets);
+        newDashboard.Name = "Copied dashboard";
+        newDashboard.OwnerId = dashboard.OwnerId;
+        await dashClient.CreateDashboardAsync(newDashboard, teamContext);
     }
 
     private static void ConfigureSerilog()
