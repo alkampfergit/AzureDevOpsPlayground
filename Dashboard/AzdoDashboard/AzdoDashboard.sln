@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32127.271
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzdoDashboard", "AzdoDashboard.csproj", "{C4943E98-524B-4663-930D-44366ED4824C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C4943E98-524B-4663-930D-44366ED4824C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4943E98-524B-4663-930D-44366ED4824C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4943E98-524B-4663-930D-44366ED4824C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4943E98-524B-4663-930D-44366ED4824C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {20009B5F-9C53-47D0-AFB4-61D9917850E6}
+	EndGlobalSection
+EndGlobal
